@@ -1,0 +1,11 @@
+.body{
+    margin:0;    
+}
+.board{
+    text-align: center;
+    background-color: purple;
+    color:white;
+    padding:50px;
+    font-size: 25px;
+}
+
