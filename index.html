@@ -21,19 +21,23 @@
             <div class="col-sm-3">
                 <h2>Search for a city:</h2>
               <!------ Input part ---->
-                <div  class=" input_group mb-3">
+                <div  class="input_group mb-3">
                   <input type="text" class="form-control"  id="inputCity"  placeholder="Enter city Name">
                   <button type="button" class="btn btn-outline-primary" id="searchbtn">Search</button>
                 </div>
 
                 <div class="card">
-                  <ul class="list-group list-group-flush">
+                  <ul id="cityList" class="list-group list-group-flush">
                   </ul>
                 </div>
             </div>
 
             <div class="col">
               <div id="currentCity" class="currentCity">
+                <h2 id="cityResult" class="cardTitle"></h2> 
+                <p id="tempResult" class="cardText"></p>
+                <p id="humidityResult" class="cardText"></p>
+                <p id="windResult" class="cardText"></p>
               </div>
             </div>
         </div>
@@ -42,7 +46,7 @@
    <div class= "currentCity col-md-12" >
       <h2 id="forecastContainer" class="forecastContainer hide">5-Day Forecast:</h2> 
 
-      <div id="forcast" class="row">
+      <div id="forecast" class="row">
       </div>
     </div>
   </div>
