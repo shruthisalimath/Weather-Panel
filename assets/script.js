@@ -3,14 +3,19 @@ var searchButton = $("#searchBtn");
 //store value of the input
 var inputCityEl = $("#inputCity").val();
 var citySearchList = $("#cityListBtn");
+
 var currentCityEl = $("#cityResult");
 var currentTempEl = $("#tempResult");
 var currentHumidityEl = $("#humidityResult");
 var currentWindEl = $("#windResult");
+
 var forcastEl = $("#forecastContaine");
 
 const date =new Date();
 var dateString = date.toLocaleDateString();
+
+//var lat = response.coord.lat;
+//var lon = response .coord.lon;
 
 $("#inputCity").keypress(function(event) 
 {
@@ -26,7 +31,7 @@ var cityArray = JSON.parse(localStorage.getItem("savedCities")) || [];
 
 
 
-var getCityWeather = function(inputCityEl)
+var getCurrentWeather = function(inputCityEl)
 {
     //var city = $("#currentCity");
     const requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + inputCityEl + "&appid=" + myApiKey;
@@ -35,6 +40,7 @@ var getCityWeather = function(inputCityEl)
         method: 'GET',
     }).then(function(response)
     {
+        console.log(response);
         var cityInfo = response.name;
         var temp = response.main.temp;
         var humidity = response.main.humidity;
@@ -43,15 +49,18 @@ var getCityWeather = function(inputCityEl)
        // var lon = response .coord.lon;
         var icon = response.weather[0].icon;
         var iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
-        currentCityEl.text(cityInfo + "(" + dateString + ")" + iconUrl);
-        currentTempEl.text("Temperature: " + temp + "&deg;F");
+        currentCityEl.text(cityInfo + "(" + dateString + ")"); 
+        currentCityEl.append("<img src='https://openweathermap.org/img/wn/" + icon + "@2x.png' />" );
+        currentTempEl.text("Temperature: " + temp + "°F");
         currentHumidityEl.text("Humidity: " + humidity + "%");
         currentWindEl.text("Wind: " + wind + "MPH");
     })
 }
 
 
+
 $("#searchBtn").on("click",function (event) {
+    
     event.preventDefault();
     if($("#inputCity").val() === "")
     {
@@ -60,7 +69,7 @@ $("#searchBtn").on("click",function (event) {
     else {
         var inputCityEl =$("#inputCity").val();
         getCurrentWeather(inputCityEl);
-        getForecast(inputCityEl);
+       // getForecast(inputCityEl);
         $("#inputCity").val("");
          //$("#forecastContainer").addClass('show');
     }
