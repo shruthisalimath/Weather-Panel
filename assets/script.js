@@ -93,7 +93,7 @@ var getForecast = function(inputCityEl)
             var cardBody = $("<div>").addClass("card-body p-3 foreCastBody");
             var cityDate = $("<h3>").addClass("card-title").text(foreCastDate);
             var cityTemp = $("<p>").addClass("card-text foreCastTemp").text("Temperature : " + tempF + "°F");
-            var cityWind = $("<p>").addClass("card-text foreCastWind").text("Wind : " + result[i].main.wind + "MPH");
+            var cityWind = $("<p>").addClass("card-text foreCastWind").text("Wind : " + result[i].wind.speed + "MPH");
             var cityHumidity = $("<p>").addClass("card-text foreCastHumid").text("Humidity : " + result[i].main.humidity + "%");
             var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + result[i].weather[0].icon + ".png");
 
