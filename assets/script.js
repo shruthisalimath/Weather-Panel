@@ -64,11 +64,11 @@ var getCurrentWeather = function(inputCity)
 
 var getForecast = function(inputCityEl)
 {
-    //var lat = response.coord.lat;
+   // var lat = response.coord.lat;
     //var lon = response.coord.lon;
-    //const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + myApiKey + "&lat=" + lat +  "&lon=" + lon;
-    const foreCastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + inputCity + "&appid=" + myApiKey;
-   
+    //const foreCastUrl = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + myApiKey + "&lat=" + lat +  "&lon=" + lon;
+    const foreCastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + inputCityEl + "&appid=" + myApiKey;
+        //const foreCastUrl = "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + inputCityEl + "&cnt=" + 5 + "&appid=" + myApiKey;
     $.ajax({
         url: foreCastUrl,
         method: "GET",
@@ -80,15 +80,16 @@ var getForecast = function(inputCityEl)
         //var to hold response.list
         var result = response.list;
         console.log(result);
-        for (var i = 0; i < result.length; i++);
+        for (var i = 0; i < 5; i++)
         {
+            console.log(result[i]);
             var foreCastDate = moment(result[i].dt_txt).format("L");
             console.log(foreCastDate);
             //get temperature and cover it to fahrenheit
-            let temp = (results[i].main.temp - 273.15) * 1.80 + 32;
-            let tempF = Math.floor(temp);
+            var temp = (result[i].main.temp - 273.15) * 1.80 + 32;
+            var tempF = Math.floor(temp);
 
-            var card = $("<div>").addClass("card col-md-2 text-white");
+            var card = $("<div>").addClass("card col-md-2 ");
             var cardBody = $("<div>").addClass("card-body p-3 foreCastBody");
             var cityDate = $("<h3>").addClass("card-title").text(foreCastDate);
             var cityTemp = $("<p>").addClass("card-text foreCastTemp").text("Temperature : " + tempF + "°F");
