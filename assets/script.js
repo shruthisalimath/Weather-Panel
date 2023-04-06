@@ -26,20 +26,23 @@ $("#inputCity").keypress(function(event)
     }
 });
 
-//var cityArray = [];
+var cityArray = [];
 
 //getting cities stored in localstorage
-var cityArray = JSON.parse(localStorage.getItem("savedCities")) || [];
-
+function getCityInput()
+{
+    localStorage.getItem("Saved-Cities");
+} 
 
 //storing input cities to the localStorage
 var storeCityData = function(inputCityEl)
 {
+    var storedCity = getCityInput();
     
-    var inputCityEl = $("#inputCity").val().trim().toLowercase();
-     if (savedCities !== null) //if localStorage exists,then parse data
+    //var inputCityEl = $("#inputCity").val().trim().toLowercase();
+     if (storedCity !== null) //if localStorage exists,then parse data
      {
-        cityArray = JSON.parse(savedCities);
+        cityArray = JSON.parse(storedCity);
      }
      else //if localStorage doenst exist, create empty array to store data
      {
@@ -56,20 +59,20 @@ var storeCityData = function(inputCityEl)
 
 function displayCitySearchList()
 {   
-    
+    var storedCity = getCityInput();
     citySearchListEl.empty();
-     if (savedCities !== null)//if localStorage exists parse data
+     if (storedCity !== null)//if localStorage exists parse data
     {
         var clearButton =$("<button>").attr("id","clearCityBtn");
         clearButton.text("Clear Hisitoy");
         citySearchListEl.append(clearButton);
         
-        cityArray = JSON.parse(savedCities);
+        //cityArray = JSON.parse(storedCity);
         for ( var i = 0; i < cityArray.length; i++)
         {
             var newButton = $("<button>").attr("type","button").attr("class","savedCityBtn");
             //newButton.attr("data-name",cityArray[i]);
-            newButton.text(cittyArray[i]);
+            newButton.text(cityArray[i]);
             citySearchListEl.append(newButton);
         }
     }
@@ -175,8 +178,8 @@ $("#searchBtn").on("click",function (event) {
         var inputCityEl =$("#inputCity").val();
         getCurrentWeather(inputCityEl);
         getForecast(inputCityEl);
-        storeCityData();
-        citySearchList();
+        //storeCityData();
+        displayCitySearchList();
 
         $("#inputCity").val("");
          //$("#forecastContainer").addClass('show');
