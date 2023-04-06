@@ -1,5 +1,6 @@
 .body{
-    margin:0;    
+    margin:0; 
+    
 }
 .board{
     text-align: center;
@@ -15,3 +16,18 @@
     display:flex;
 }
 
+.city-info {
+    background-color: blanchedalmond;
+}
+.row #forecast {
+padding-left: 25px;
+
+justify-content: space-between;
+}
+
+.card {
+    background-color:aliceblue
+}
+.main-container {
+    background-color:beige;
+}

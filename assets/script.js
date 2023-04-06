@@ -71,15 +71,23 @@ function displayCitySearchList()
 {   
     //empty the elements in search history
     citySearchListEl.empty();
-    //Repopulate the search hstory with each city in the array
-    cityArray.forEach(function(city)
+    //display the search history with each city in the array
+    /*cityArray.forEach(function(city)
     {
         var newSearchcityBtn = $("<button>").attr("type","button").attr("class","savedCityBtn");
+          
             newSearchcityBtn.attr("data-value", city);
             newSearchcityBtn.text(city);
-            citySearchListEl.append(newSearchcityBtn);
+            citySearchListEl.prepend(newSearchcityBtn);
             console.log(newSearchcityBtn);
-    });
+    });*/
+    for(var i = 0; i < cityArray.length; i++)
+    {
+        var newSearchCityBtn = $("<button>").attr("type","button").attr("class","savedCityBtn");
+        newSearchCityBtn.attr("data-name", cityArray[i]);
+        newSearchCityBtn.text(cityArray[i]);
+        citySearchListEl.prepend(newSearchCityBtn);
+    }
     //update city list history in local storage
     localStorage.setItem("CITYLIST",JSON.stringify(cityArray));
 }
@@ -173,9 +181,9 @@ var getForecast = function(inputCityEl)
             var temp = (result[i].main.temp - 273.15) * 1.80 + 32;
             var tempF = Math.floor(temp);
 
-            var card = $("<div>").addClass("card col-md-2 ");
+            var card = $("<div>").addClass("card col-12 col-md-2 ");
             var cardBody = $("<div>").addClass("card-body p-3 foreCastBody");
-            var cityDate = $("<h3>").addClass("card-title").text(foreCastDate);
+            var cityDate = $("<h4>").addClass("card-title").text(foreCastDate);
             var cityTemp = $("<p>").addClass("card-text foreCastTemp").text("Temperature : " + tempF + "°F");
             var cityWind = $("<p>").addClass("card-text foreCastWind").text("Wind : " + result[i].wind.speed + "MPH");
             var cityHumidity = $("<p>").addClass("card-text foreCastHumid").text("Humidity : " + result[i].main.humidity + "%");
@@ -214,7 +222,7 @@ searchButtonEL.on("click",function (event) {
 });
 
 //  search city history button will retrive weather info of that city
-citySearchListEl.on("click",function(event)
+citySearchListEl.on("click","savedCityBtn", function(event)
 {
     event.preventDefault();
     
