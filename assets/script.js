@@ -1,21 +1,28 @@
 const myApiKey = "f9402ae6820aceae1ad22e887d1fea07";
-var searchButton = $("#searchBtn");
+var searchButtonEL = $("#searchBtn");
 //store value of the input
 var inputCityEl = $("#inputCity").val();
 var citySearchListEl = $("#cityListBtn");
+var clearHistoryBtnEl = $("#clearHistory");
 
 var currentCityEl = $("#cityResult");
 var currentTempEl = $("#tempResult");
 var currentHumidityEl = $("#humidityResult");
 var currentWindEl = $("#windResult");
+var weatherContainerEl = $("#weatherContainer");
 
-var forcastEl = $("#forecastContainer");
+//to acess array of data
+var cityArray = [];
+//var forcastEl = $("#forecastContainer");
 
+//current date
 const date =new Date();
 var dateString = date.toLocaleDateString();
 
-//var lat = response.coord.lat;
-//var lon = response .coord.lon;
+//check if search history exists when page loads
+displayCitySearchList();
+clearHistory();
+
 
 $("#inputCity").keypress(function(event) 
 {
@@ -26,66 +33,84 @@ $("#inputCity").keypress(function(event)
     }
 });
 
-var cityArray = [];
 
-//getting cities stored in localstorage
-function getCityInput()
-{
-    localStorage.getItem("Saved-Cities");
-} 
 
 //storing input cities to the localStorage
 var storeCityData = function(inputCityEl)
 {
-    var storedCity = getCityInput();
-    
-    //var inputCityEl = $("#inputCity").val().trim().toLowercase();
-     if (storedCity !== null) //if localStorage exists,then parse data
-     {
-        cityArray = JSON.parse(storedCity);
-     }
-     else //if localStorage doenst exist, create empty array to store data
-     {
-        cityArray = [];
-     }
-
-     if(!cityArray.includes(inputCityEl))//Add city to localStorage if not there
-     {
-        cityArray.push(inputCityEl);
-        localStorage.setItem("savedCities",JSON.stringify(cityArray));
-     }
-}
-   
-
-function displayCitySearchList()
-{   
-    var storedCity = getCityInput();
-    citySearchListEl.empty();
-     if (storedCity !== null)//if localStorage exists parse data
+    //var storedCity = getCityInput();
+    //get the cityinput from search
+    if(inputCityEl)
     {
-        var clearButton =$("<button>").attr("id","clearCityBtn");
-        clearButton.text("Clear Hisitoy");
-        citySearchListEl.append(clearButton);
-        
-        //cityArray = JSON.parse(storedCity);
-        for ( var i = 0; i < cityArray.length; i++)
+        //place value in the array if it is new entry
+        if (cityArray.indexOf(inputCityEl) === -1)
         {
-            var newButton = $("<button>").attr("type","button").attr("class","savedCityBtn");
-            //newButton.attr("data-name",cityArray[i]);
-            newButton.text(cityArray[i]);
-            citySearchListEl.append(newButton);
+            cityArray.push(inputCityEl);
+            //list all the city is the user history
+            displayCitySearchList();
+            clearHistoryBtnEl.removeClass("hide");
+            weatherContainerEl.removeClass("hide");
+        }
+        else //remove existing value from array
+        {
+            var removeData = cityArray.indexOf(inputCityEl);
+            cityArray.splice(removeData, 1);
+            //push the value again to array
+            cityArray.push(inputCityEl);
+            //list all the city is the user history, so oldvalue appears on top of the search history.
+            displayCitySearchList();
+            clearHistoryBtnEl.removeClass("hide");
+            weatherContainerEl.removeClass("hide");
         }
     }
-    else //if no localStorage
-    {
-        citySearchListEl.text("No previous search");    
-    }
+    console.log(cityArray);
 }
-//removes city search history from local storage
+   
+//list the array into search history
+function displayCitySearchList()
+{   
+    //empty the elements in search history
+    citySearchListEl.empty();
+    //Repopulate the search hstory with each city in the array
+    cityArray.forEach(function(city)
+    {
+        var newSearchcityBtn = $("<button>").attr("type","button").attr("class","savedCityBtn");
+            newSearchcityBtn.attr("data-value", city);
+            newSearchcityBtn.text(city);
+            citySearchListEl.append(newSearchcityBtn);
+            console.log(newSearchcityBtn);
+    });
+    //update city list history in local storage
+    localStorage.setItem("CITYLIST",JSON.stringify(cityArray));
+}
+
+
+//getting cities stored from localstorage and update in the search history
+function getCityInput()
+{
+    if(localStorage.getItem("CITYLIST"))
+    {
+        cityArray = JSON.parse(localStorage.getItem("CITYLIST"));
+        var lastData = cityArray.length -1;
+        console.log(cityArray);
+        displayCitySearchList();
+        //Displaylastcityview if the page is refreshed
+        if(cityArray.length !== 0)
+        {
+            getCurrentWeather(cityArray[lastData]);
+            weatherContainerEl.removeClass("hide"); 
+        }
+
+    }
+} 
+
+//check for any data in the search history to append clearhistory button 
 function clearHistory()
 {
-    localStorage.removeItem("savedCities");
-    displayCitySearchList();
+    if(citySearchListEl.text() !== "")
+    {
+        clearHistoryBtnEl.removeClass("hide"); 
+    }
 }
 
 var getCurrentWeather = function(inputCity)
@@ -166,44 +191,56 @@ var getForecast = function(inputCityEl)
 
 //event listner for search city button 
 
-$("#searchBtn").on("click",function (event) {
+searchButtonEL.on("click",function (event) {
     
     event.preventDefault();
+   //  Get city name from user input and attempt to display weather
+    var inputCityEl = $("#inputCity").val().trim();
     if($("#inputCity").val() === "")
     {
         alert("Please Enter valid city name to display current weather");
     }
     else 
-    {   //  Get city name from user input and attempt to display weather
-        var inputCityEl =$("#inputCity").val();
+    {   
         getCurrentWeather(inputCityEl);
         getForecast(inputCityEl);
-        //storeCityData();
-        displayCitySearchList();
-
-        $("#inputCity").val("");
-         //$("#forecastContainer").addClass('show');
+        storeCityData(inputCityEl);
+        //displayCitySearchList();
+         $("#inputCity").val("");
+        
+        //inputCityEl.val("");
+         
     }
 });
 
-// event listner for search city history button
-$("#cityListBtn").on("click",function(event)
+//  search city history button will retrive weather info of that city
+citySearchListEl.on("click",function(event)
 {
     event.preventDefault();
-    var element = event.target;
-  if (element.className.includes('savedCityBtn')) 
-  { // Get city name from button and display weather
-    var inputCityEl = element.textContent;
-    getCurrentWeather(inputCityEl);
-        getForecast(inputCityEl);
-  } else if (element.id == 'clearCityBtn') { // Clear history from local storage
-    console.log('Clear search history')
-    clearHistory();
-  }
+    
+    var value = ($(this).data("value"));
+    console.log("value");
+    getCurrentWeather(value);
+    getForecast(value);
+    storeCityData(value);
 });
 
-// Display previously searched cities
-displayCitySearchList();
+//clears search history of old value
+clearHistoryBtnEl.on("click",function()
+{
+    localStorage.clear();
+    location.reload();
+    //empty city list array
+    //cityArray=[];
+    //update city list in local storage 
+   // displayCitySearchList();
+    //$(this).addClass("hide");
+});
+
+
+    
+
+
 
 
 
