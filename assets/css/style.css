@@ -8,4 +8,10 @@
     padding:50px;
     font-size: 25px;
 }
+.hide {
+    display: none;
+}
+.input_group{
+    display:flex;
+}
 
