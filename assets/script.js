@@ -107,7 +107,7 @@ function clearHistory() {
 let validRequest = true;
 var getCurrentWeather = function (inputCity) {
     validRequest = false;
-    const requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + inputCity + "&appid=" + myApiKey;
+    const requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + inputCity + "&appid=" + myApiKey;
     $.ajax({
         url: requestUrl,
         method: 'GET',
