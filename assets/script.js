@@ -104,9 +104,9 @@ function clearHistory() {
     }
 }
 
-let validRequest = true;
+
 var getCurrentWeather = function (inputCity) {
-    validRequest = false;
+    
     const requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + inputCity + "&appid=" + myApiKey;
     $.ajax({
         url: requestUrl,
@@ -126,7 +126,7 @@ var getCurrentWeather = function (inputCity) {
         var icon = response.weather[0].icon;
 
         currentCityEl.text(cityInfo + "(" + dateString + ")");
-        currentCityEl.append("<img src='https://openweathermap.org/img/wn/" + icon + "@2x.png' />");
+        currentCityEl.append("<img src='https://openweathermap.org/img/wn/" + icon + ".png' />");
         currentTempEl.text("Temperature: " + tempF + "°F");
         currentWindEl.text("Wind: " + wind + "MPH");
         currentHumidityEl.text("Humidity: " + humidity + "%");
@@ -166,7 +166,7 @@ var getForecast = function (inputCityEl) {
             var cityTemp = $("<p>").addClass("card-text foreCastTemp").text("Temperature : " + tempF + "°F");
             var cityWind = $("<p>").addClass("card-text foreCastWind").text("Wind : " + result[i].wind.speed + "MPH");
             var cityHumidity = $("<p>").addClass("card-text foreCastHumid").text("Humidity : " + result[i].main.humidity + "%");
-            var image = $("<img>").attr("src", "https://openweathermap.org/img/w/" + result[i].weather[0].icon + ".png");
+            var image = $("<img>").attr("src", "https://openweathermap.org/img/wn/" + result[i].weather[0].icon + ".png");
 
             cardBody.append(cityDate, image, cityTemp, cityWind, cityHumidity);
             card.append(cardBody);
