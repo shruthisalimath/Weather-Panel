@@ -34,7 +34,7 @@ $("#inputCity").keypress(function (event) {
 
 
 
-//storing input cities to the localStorage
+//Display and save the search history of cities
 var storeCityData = function (inputCityEl) {
     
     //get the cityinput from search
@@ -62,7 +62,7 @@ var storeCityData = function (inputCityEl) {
     console.log(cityArray);
 }
 
-//list the array into search history
+//list the array into search history and store in local storage 
 function displayCitySearchList() {
     //empty the elements in search history
     citySearchListEl.empty();
@@ -104,17 +104,18 @@ function clearHistory() {
     }
 }
 
+let validRequest = true;
 var getCurrentWeather = function (inputCity) {
-
+    validRequest = false;
     const requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + inputCity + "&appid=" + myApiKey;
     $.ajax({
         url: requestUrl,
         method: 'GET',
     }).then(function (response) {
-        console.log(response);
+        console.log("here u go :" +response);
        
         var cityInfo = response.name;
-        
+       
         //get temperature and cover it to fahrenheit
         let temp = (response.main.temp - 273.15) * 1.80 + 32;
         let tempF = Math.floor(temp);
@@ -129,8 +130,10 @@ var getCurrentWeather = function (inputCity) {
         currentTempEl.text("Temperature: " + tempF + "°F");
         currentWindEl.text("Wind: " + wind + "MPH");
         currentHumidityEl.text("Humidity: " + humidity + "%");
-
+        validRequest = true;
+      
     });
+    
 }
 
 var getForecast = function (inputCityEl) {
@@ -180,11 +183,12 @@ searchButtonEL.on("click", function (event) {
     event.preventDefault();
     //  Get city name from user input and attempt to display weather
     var inputCityEl = $("#inputCity").val().trim().toUpperCase();
-    if ($("#inputCity").val() === "") {
+    if ($("#inputCity").val() === "" ) {
         alert("Please Enter valid city name to display current weather");
     }
     else {
         getCurrentWeather(inputCityEl);
+        
         getForecast(inputCityEl);
         storeCityData(inputCityEl);
         //displayCitySearchList();
