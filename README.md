@@ -25,7 +25,7 @@ THEN I am again presented with current and future conditions for that city
 ![Weather-DashBoard](./assets/images/06-server-side-apis-homework-demo.png)
 
 ## Screen shot 
- ![Weather-Panel](.assets/images/Screen_Shot_Weather_Dashboard.png)
+ ![Weather-Panel](./assets/images/Screen_Shot_Weather_Dashboard.png)
 
 ## Discription of the Challenge: Weather Dashboard
 1. Initally commited codes for basic HTML and CSS.
