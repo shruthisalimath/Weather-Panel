@@ -52,8 +52,8 @@ THEN I am again presented with current and future conditions for that city
 ## URL
 1.The URL of the deployed application:
 
-
+https://shruthisalimath.github.io/Weather-Panel/
 
 2.The URL of the GitHub repository:
 
-
+https://github.com/shruthisalimath/Weather-Panel
