@@ -1,4 +1,7 @@
-body{
+html {
+    height: 100%; 
+}
+body {
     margin:0; 
     background-color: beige;
     height: 100%;
