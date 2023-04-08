@@ -1,6 +1,7 @@
-.body{
+body{
     margin:0; 
-    
+    background-color:beige;
+    height: 100%;
 }
 .board{
     text-align: center;
@@ -28,9 +29,7 @@ justify-content: space-between;
 .card {
     background-color:aliceblue
 }
-.main-container {
-    background-color:beige;
-}
+
 .savedCityBtn {
     color:brown;
     background-color:honeydew;
