@@ -112,7 +112,7 @@ var getCurrentWeather = function (inputCity) {
         url: requestUrl,
         method: 'GET',
     }).then(function (response) {
-        console.log("here u go :" +response);
+        console.log(response);
        
         var cityInfo = response.name;
        
@@ -130,10 +130,14 @@ var getCurrentWeather = function (inputCity) {
         currentTempEl.text("Temperature: " + tempF + "°F");
         currentWindEl.text("Wind: " + wind + "MPH");
         currentHumidityEl.text("Humidity: " + humidity + "%");
-        validRequest = true;
-      
+        //storeCityData(inputCityEl);
+   //});
+    }).fail(function(response)
+    {
+        alert("plese enter valid city name")
     });
-    
+   // storeCityData(inputCityEl);
+
 }
 
 var getForecast = function (inputCityEl) {
